@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import TopBar from "@/components/TopBar";
 import HeroCard from "@/components/HeroCard";
 import ProductCard from "@/components/ProductCard";
