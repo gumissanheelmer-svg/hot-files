@@ -6,6 +6,7 @@ import {
   BarChart3,
   Settings,
   LogOut,
+  Eye,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -26,6 +27,7 @@ import { Shield } from "lucide-react";
 
 const navItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Storefront", url: "/admin/storefront", icon: Eye },
   { title: "Sales", url: "/admin/sales", icon: ShoppingCart },
   { title: "Products", url: "/admin/products", icon: Package },
   { title: "Customers", url: "/admin/customers", icon: Users },

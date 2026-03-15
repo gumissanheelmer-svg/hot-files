@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { products } from "@/data/products";
+import { supabase } from "@/integrations/supabase/client";
 
 const NAMES = [
   "Gabriel", "Lucas", "Emma", "Oliver", "Sophia",
@@ -21,38 +21,58 @@ function randomFrom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function generateNotification() {
-  const name = randomFrom(NAMES);
-  const product = randomFrom(products);
-  const time = randomFrom(TIMES);
-  const action = randomFrom(ACTIONS);
-  const color = randomFrom(AVATAR_COLORS);
-  return {
-    name,
-    productTitle: product.title,
-    productImage: product.image,
-    price: product.salePrice,
-    time,
-    action,
-    avatarColor: color,
-    id: Date.now(),
-  };
+interface DBProduct {
+  title: string;
+  thumbnail_url: string | null;
+  sale_price: number;
 }
 
 const SocialProofPopup = () => {
-  const [notification, setNotification] = useState<ReturnType<typeof generateNotification> | null>(null);
+  const [dbProducts, setDbProducts] = useState<DBProduct[]>([]);
+  const [notification, setNotification] = useState<any>(null);
   const [visible, setVisible] = useState(false);
   const isPaused = useRef(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout>>();
   const showTimer = useRef<ReturnType<typeof setTimeout>>();
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await supabase
+        .from("admin_products")
+        .select("title, thumbnail_url, sale_price")
+        .eq("status", "active");
+      if (data && data.length > 0) {
+        setDbProducts(data as DBProduct[]);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const generateNotification = useCallback(() => {
+    if (dbProducts.length === 0) return null;
+    const product = randomFrom(dbProducts);
+    return {
+      name: randomFrom(NAMES),
+      productTitle: product.title,
+      productImage: product.thumbnail_url || "/placeholder.svg",
+      price: Number(product.sale_price),
+      time: randomFrom(TIMES),
+      action: randomFrom(ACTIONS),
+      avatarColor: randomFrom(AVATAR_COLORS),
+      id: Date.now(),
+    };
+  }, [dbProducts]);
+
   const hideNotification = useCallback(() => {
     setVisible(false);
     showTimer.current = setTimeout(() => {
-      setNotification(generateNotification());
-      setVisible(true);
+      const n = generateNotification();
+      if (n) {
+        setNotification(n);
+        setVisible(true);
+      }
     }, 2000);
-  }, []);
+  }, [generateNotification]);
 
   const startHideTimer = useCallback(() => {
     hideTimer.current = setTimeout(() => {
@@ -61,15 +81,19 @@ const SocialProofPopup = () => {
   }, [hideNotification]);
 
   useEffect(() => {
+    if (dbProducts.length === 0) return;
     showTimer.current = setTimeout(() => {
-      setNotification(generateNotification());
-      setVisible(true);
+      const n = generateNotification();
+      if (n) {
+        setNotification(n);
+        setVisible(true);
+      }
     }, 2000);
     return () => {
       clearTimeout(showTimer.current);
       clearTimeout(hideTimer.current);
     };
-  }, []);
+  }, [dbProducts, generateNotification]);
 
   useEffect(() => {
     if (visible) startHideTimer();
@@ -120,7 +144,6 @@ const SocialProofPopup = () => {
             </button>
 
             <div className="flex items-start gap-3">
-              {/* Product thumbnail */}
               <img
                 src={notification.productImage}
                 alt={notification.productTitle}
