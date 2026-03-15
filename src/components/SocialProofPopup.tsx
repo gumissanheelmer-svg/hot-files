@@ -52,7 +52,7 @@ const SocialProofPopup = () => {
   const hideNotification = useCallback(() => {
     setVisible(false);
     // Schedule next
-    const delay = 20000 + Math.random() * 20000;
+    const delay = 2000;
     showTimer.current = setTimeout(() => {
       setNotification(generateNotification());
       setVisible(true);
