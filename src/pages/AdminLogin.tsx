@@ -27,7 +27,6 @@ const AdminLogin = () => {
 
       if (error) throw error;
 
-      // Check if user has admin role
       const { data: roleData, error: roleError } = await supabase
         .from("user_roles")
         .select("role")
@@ -37,14 +36,14 @@ const AdminLogin = () => {
 
       if (roleError || !roleData) {
         await supabase.auth.signOut();
-        throw new Error("Access denied. You are not an admin.");
+        throw new Error("Acesso negado. Você não é administrador.");
       }
 
-      toast({ title: "Welcome back!", description: "Logged in successfully." });
+      toast({ title: "Bem-vindo de volta!", description: "Login realizado com sucesso." });
       navigate("/admin");
     } catch (err: any) {
       toast({
-        title: "Login failed",
+        title: "Falha no login",
         description: err.message,
         variant: "destructive",
       });
@@ -61,10 +60,10 @@ const AdminLogin = () => {
             <Shield className="w-8 h-8 text-primary" />
           </div>
           <h1 className="text-2xl font-bold text-foreground tracking-tight">
-            Admin Control Panel
+            Painel de Controle
           </h1>
           <p className="text-sm text-muted-foreground">
-            Sign in to manage your marketplace
+            Entre para gerenciar o seu marketplace
           </p>
         </div>
 
@@ -72,11 +71,11 @@ const AdminLogin = () => {
           <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 space-y-4"
             style={{ boxShadow: "0 0 40px hsl(255 100% 62% / 0.05)" }}>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm text-muted-foreground">Email</Label>
+              <Label htmlFor="email" className="text-sm text-muted-foreground">E-mail</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="admin@exemplo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -85,7 +84,7 @@ const AdminLogin = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm text-muted-foreground">Password</Label>
+              <Label htmlFor="password" className="text-sm text-muted-foreground">Senha</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -112,7 +111,7 @@ const AdminLogin = () => {
               className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl transition-all"
               style={{ boxShadow: "0 0 20px hsl(255 100% 62% / 0.3)" }}
             >
-              {loading ? "Signing in..." : "Login"}
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
           </div>
         </form>

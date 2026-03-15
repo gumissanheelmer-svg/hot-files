@@ -2,14 +2,12 @@ import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function StorefrontPreview() {
-  const previewUrl = window.location.origin + "/";
-
   return (
     <div className="space-y-4 h-[calc(100vh-5rem)]">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Storefront Preview</h1>
-          <p className="text-sm text-muted-foreground mt-1">Live view of your marketplace page</p>
+          <h1 className="text-2xl font-bold text-foreground">Pré-visualização da Vitrine</h1>
+          <p className="text-sm text-muted-foreground mt-1">Visualização ao vivo da sua página</p>
         </div>
         <Button
           variant="outline"
@@ -17,7 +15,7 @@ export default function StorefrontPreview() {
           onClick={() => window.open("/", "_blank")}
         >
           <ExternalLink className="w-4 h-4" />
-          Open in new tab
+          Abrir em nova aba
         </Button>
       </div>
 
@@ -28,7 +26,7 @@ export default function StorefrontPreview() {
         <iframe
           src="/"
           className="w-full h-full border-0"
-          title="Storefront Preview"
+          title="Pré-visualização da Vitrine"
         />
       </div>
     </div>

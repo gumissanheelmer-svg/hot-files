@@ -43,9 +43,9 @@ export default function Settings() {
     setSaving(true);
     const { error } = await supabase.from("site_settings").update(form).eq("id", 1);
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Erro", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Settings saved" });
+      toast({ title: "Configurações salvas" });
     }
     setSaving(false);
   };
@@ -61,19 +61,19 @@ export default function Settings() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-        <p className="text-sm text-muted-foreground mt-1">Configure your marketplace</p>
+        <h1 className="text-2xl font-bold text-foreground">Configurações</h1>
+        <p className="text-sm text-muted-foreground mt-1">Configure o seu marketplace</p>
       </div>
 
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-primary" /> Payment Settings
+            <CreditCard className="w-5 h-5 text-primary" /> Pagamento
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Payment Link</Label>
+            <Label>Link de Pagamento</Label>
             <Input value={form.payment_link} onChange={(e) => setForm({ ...form, payment_link: e.target.value })} className="bg-input border-border/50" placeholder="https://stripe.com/pay/..." />
           </div>
         </CardContent>
@@ -82,13 +82,13 @@ export default function Settings() {
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <MessageCircle className="w-5 h-5 text-primary" /> Support Settings
+            <MessageCircle className="w-5 h-5 text-primary" /> Suporte
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Telegram Support Link</Label>
-            <Input value={form.support_link} onChange={(e) => setForm({ ...form, support_link: e.target.value })} className="bg-input border-border/50" placeholder="https://t.me/support" />
+            <Label>Link do Telegram de Suporte</Label>
+            <Input value={form.support_link} onChange={(e) => setForm({ ...form, support_link: e.target.value })} className="bg-input border-border/50" placeholder="https://t.me/suporte" />
           </div>
         </CardContent>
       </Card>
@@ -96,33 +96,33 @@ export default function Settings() {
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <SettingsIcon className="w-5 h-5 text-primary" /> General Settings
+            <SettingsIcon className="w-5 h-5 text-primary" /> Geral
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Site Name</Label>
+              <Label>Nome do Site</Label>
               <Input value={form.site_name} onChange={(e) => setForm({ ...form, site_name: e.target.value })} className="bg-input border-border/50" />
             </div>
             <div className="space-y-2">
-              <Label>Currency</Label>
+              <Label>Moeda</Label>
               <Input value={form.currency} onChange={(e) => setForm({ ...form, currency: e.target.value })} className="bg-input border-border/50" />
             </div>
           </div>
           <div className="flex items-center justify-between py-2">
-            <Label>Enable Discounts</Label>
+            <Label>Ativar Descontos</Label>
             <Switch checked={form.enable_discounts} onCheckedChange={(v) => setForm({ ...form, enable_discounts: v })} />
           </div>
           <div className="flex items-center justify-between py-2">
-            <Label>Enable Scarcity Messages</Label>
+            <Label>Ativar Mensagens de Escassez</Label>
             <Switch checked={form.enable_scarcity} onCheckedChange={(v) => setForm({ ...form, enable_scarcity: v })} />
           </div>
         </CardContent>
       </Card>
 
       <Button onClick={handleSave} disabled={saving} className="w-full bg-primary hover:bg-primary/90 gap-2">
-        <Save className="w-4 h-4" /> {saving ? "Saving..." : "Save Settings"}
+        <Save className="w-4 h-4" /> {saving ? "Salvando..." : "Salvar Configurações"}
       </Button>
     </div>
   );

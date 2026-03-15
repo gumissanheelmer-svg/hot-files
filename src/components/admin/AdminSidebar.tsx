@@ -24,11 +24,11 @@ import {
 import { Shield } from "lucide-react";
 
 const navItems = [
-  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Storefront", url: "/admin/storefront", icon: Eye },
-  { title: "Sales", url: "/admin/sales", icon: ShoppingCart },
-  { title: "Products", url: "/admin/products", icon: Package },
-  { title: "Settings", url: "/admin/settings", icon: Settings },
+  { title: "Painel", url: "/admin", icon: LayoutDashboard },
+  { title: "Vitrine", url: "/admin/storefront", icon: Eye },
+  { title: "Vendas", url: "/admin/sales", icon: ShoppingCart },
+  { title: "Produtos", url: "/admin/products", icon: Package },
+  { title: "Configurações", url: "/admin/settings", icon: Settings },
 ];
 
 interface AdminSidebarProps {
@@ -48,14 +48,14 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
             <Shield className="w-4 h-4 text-primary" />
           </div>
           {!collapsed && (
-            <span className="text-sm font-bold text-foreground tracking-tight">Admin Panel</span>
+            <span className="text-sm font-bold text-foreground tracking-tight">Painel Admin</span>
           )}
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Navegação</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
@@ -87,11 +87,11 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton
               onClick={onLogout}
-              tooltip="Logout"
+              tooltip="Sair"
               className="text-destructive hover:bg-destructive/10"
             >
               <LogOut className="w-4 h-4" />
-              {!collapsed && <span>Logout</span>}
+              {!collapsed && <span>Sair</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
