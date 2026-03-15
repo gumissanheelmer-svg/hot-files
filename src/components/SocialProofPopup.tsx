@@ -67,7 +67,7 @@ const SocialProofPopup = () => {
 
   // Initial show
   useEffect(() => {
-    const initial = 5000 + Math.random() * 10000;
+    const initial = 2000;
     showTimer.current = setTimeout(() => {
       setNotification(generateNotification());
       setVisible(true);
