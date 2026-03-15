@@ -36,6 +36,9 @@
 
     --radius: 0.75rem;
 
+    --proof: 255 62% 62%;
+    --proof-glow: 255 62% 62%;
+
     --success: 142 70% 45%;
     --warning: 38 92% 50%;
     --gold: 45 100% 51%;
