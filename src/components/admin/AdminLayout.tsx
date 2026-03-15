@@ -21,7 +21,7 @@ export default function AdminLayout() {
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 flex items-center border-b border-border/50 px-4 backdrop-blur-sm bg-background/80 sticky top-0 z-10">
             <SidebarTrigger className="mr-4" />
-            <span className="text-sm text-muted-foreground font-medium">Premium Files Admin</span>
+            <span className="text-sm text-muted-foreground font-medium">Administração Premium Files</span>
           </header>
           <main className="flex-1 p-6 overflow-auto">
             <Outlet />

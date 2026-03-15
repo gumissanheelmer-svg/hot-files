@@ -51,11 +51,20 @@ export default function Sales() {
   const updateStatus = async (id: string, status: string) => {
     const { error } = await supabase.from("sales").update({ status }).eq("id", id);
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Erro", description: error.message, variant: "destructive" });
       return;
     }
-    toast({ title: `Sale ${status}` });
+    const label = status === "confirmed" ? "confirmada" : "rejeitada";
+    toast({ title: `Venda ${label}` });
     fetchSales();
+  };
+
+  const statusLabel = (status: string) => {
+    switch (status) {
+      case "confirmed": return "Confirmado";
+      case "rejected": return "Rejeitado";
+      default: return "Pendente";
+    }
   };
 
   const statusColor = (status: string) => {
@@ -69,8 +78,8 @@ export default function Sales() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Sales</h1>
-        <p className="text-sm text-muted-foreground mt-1">Manage and confirm payments</p>
+        <h1 className="text-2xl font-bold text-foreground">Vendas</h1>
+        <p className="text-sm text-muted-foreground mt-1">Gerencie e confirme pagamentos</p>
       </div>
 
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
@@ -78,13 +87,13 @@ export default function Sales() {
           <Table>
             <TableHeader>
               <TableRow className="border-border/30 hover:bg-transparent">
-                <TableHead>Customer</TableHead>
-                <TableHead>Product</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Proof</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>Cliente</TableHead>
+                <TableHead>Produto</TableHead>
+                <TableHead>Preço</TableHead>
+                <TableHead>Comprovante</TableHead>
+                <TableHead>Data</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -92,7 +101,7 @@ export default function Sales() {
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-12">
                     <ShoppingCart className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
-                    <p className="text-muted-foreground">No sales yet.</p>
+                    <p className="text-muted-foreground">Nenhuma venda ainda.</p>
                   </TableCell>
                 </TableRow>
               ) : (
@@ -116,17 +125,17 @@ export default function Sales() {
                           onClick={() => setProofUrl(sale.payment_proof_url)}
                           className="gap-1 text-primary hover:bg-primary/10"
                         >
-                          <Eye className="w-3 h-3" /> View
+                          <Eye className="w-3 h-3" /> Ver
                         </Button>
                       ) : (
-                        <span className="text-xs text-muted-foreground">No proof</span>
+                        <span className="text-xs text-muted-foreground">Sem comprovante</span>
                       )}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
-                      {new Date(sale.created_at).toLocaleDateString()}
+                      {new Date(sale.created_at).toLocaleDateString("pt-BR")}
                     </TableCell>
                     <TableCell>
-                      <Badge className={statusColor(sale.status)}>{sale.status}</Badge>
+                      <Badge className={statusColor(sale.status)}>{statusLabel(sale.status)}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       {sale.status === "pending" && (
@@ -161,10 +170,10 @@ export default function Sales() {
       <Dialog open={!!proofUrl} onOpenChange={() => setProofUrl(null)}>
         <DialogContent className="bg-card border-border/50 max-w-lg">
           <DialogHeader>
-            <DialogTitle>Payment Proof</DialogTitle>
+            <DialogTitle>Comprovante de Pagamento</DialogTitle>
           </DialogHeader>
           {proofUrl && (
-            <img src={proofUrl} alt="Payment proof" className="w-full rounded-lg" />
+            <img src={proofUrl} alt="Comprovante" className="w-full rounded-lg" />
           )}
         </DialogContent>
       </Dialog>
