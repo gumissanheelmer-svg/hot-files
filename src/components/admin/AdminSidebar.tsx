@@ -2,8 +2,6 @@ import {
   LayoutDashboard,
   ShoppingCart,
   Package,
-  Users,
-  BarChart3,
   Settings,
   LogOut,
   Eye,
