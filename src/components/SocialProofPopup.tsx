@@ -52,7 +52,7 @@ const SocialProofPopup = () => {
   const hideNotification = useCallback(() => {
     setVisible(false);
     // Schedule next
-    const delay = 20000 + Math.random() * 20000;
+    const delay = 2000;
     showTimer.current = setTimeout(() => {
       setNotification(generateNotification());
       setVisible(true);
@@ -62,12 +62,12 @@ const SocialProofPopup = () => {
   const startHideTimer = useCallback(() => {
     hideTimer.current = setTimeout(() => {
       if (!isPaused.current) hideNotification();
-    }, 5000);
+    }, 3000);
   }, [hideNotification]);
 
   // Initial show
   useEffect(() => {
-    const initial = 5000 + Math.random() * 10000;
+    const initial = 2000;
     showTimer.current = setTimeout(() => {
       setNotification(generateNotification());
       setVisible(true);
