@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import TopBar from "@/components/TopBar";
 import HeroCard from "@/components/HeroCard";
 import ProductCard from "@/components/ProductCard";
+import SocialProofPopup from "@/components/SocialProofPopup";
 
 import packUikit from "@/assets/pack-uikit.jpg";
 import packPhotos from "@/assets/pack-photos.jpg";
