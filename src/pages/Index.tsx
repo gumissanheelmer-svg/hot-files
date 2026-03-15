@@ -100,20 +100,40 @@ const Index = () => {
 
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
         {/* Page Title */}
-        <div className="text-center space-y-1">
+        <motion.div
+          className="text-center space-y-1"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <h2 className="text-2xl font-black text-primary tracking-tight">PREMIUM FILES</h2>
           <p className="text-sm text-muted-foreground">
             🔥 ALL VIP PACKS INCLUDED • LIFETIME • 20TB+
           </p>
-        </div>
+        </motion.div>
 
         {/* Hero VIP Card */}
-        <HeroCard />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <HeroCard />
+        </motion.div>
 
         {/* Product Grid */}
         <div className="grid grid-cols-2 gap-3">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.title} {...product} />
+          {filteredProducts.map((product, index) => (
+            <motion.div
+              key={product.title}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+              whileHover={{ scale: 1.02 }}
+            >
+              <ProductCard {...product} />
+            </motion.div>
           ))}
         </div>
 
