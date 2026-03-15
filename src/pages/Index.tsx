@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import TopBar from "@/components/TopBar";
 import HeroCard from "@/components/HeroCard";
 import ProductCard from "@/components/ProductCard";
+import SocialProofPopup from "@/components/SocialProofPopup";
 
 import packUikit from "@/assets/pack-uikit.jpg";
 import packPhotos from "@/assets/pack-photos.jpg";
@@ -96,6 +97,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SocialProofPopup />
       <TopBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
