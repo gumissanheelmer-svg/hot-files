@@ -12,8 +12,6 @@ import Products from "./pages/admin/Products.tsx";
 import Sales from "./pages/admin/Sales.tsx";
 import StorefrontPreview from "./pages/admin/StorefrontPreview.tsx";
 import Settings from "./pages/admin/Settings.tsx";
-import Customers from "./pages/admin/Customers.tsx";
-import Analytics from "./pages/admin/Analytics.tsx";
 
 const queryClient = new QueryClient();
 
