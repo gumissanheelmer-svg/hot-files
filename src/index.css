@@ -43,14 +43,14 @@
     --warning: 38 92% 50%;
     --gold: 45 100% 51%;
 
-    --sidebar-background: 0 0% 9%;
+    --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 0 85% 55%;
+    --sidebar-primary: 255 100% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent: 255 30% 15%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 16%;
-    --sidebar-ring: 0 85% 55%;
+    --sidebar-border: 255 30% 16%;
+    --sidebar-ring: 255 100% 62%;
   }
 }
 
