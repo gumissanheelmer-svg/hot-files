@@ -62,7 +62,7 @@ const SocialProofPopup = () => {
   const startHideTimer = useCallback(() => {
     hideTimer.current = setTimeout(() => {
       if (!isPaused.current) hideNotification();
-    }, 5000);
+    }, 3000);
   }, [hideNotification]);
 
   // Initial show
