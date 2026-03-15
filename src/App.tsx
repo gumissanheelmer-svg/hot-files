@@ -11,6 +11,9 @@ import Dashboard from "./pages/admin/Dashboard.tsx";
 import Products from "./pages/admin/Products.tsx";
 import Sales from "./pages/admin/Sales.tsx";
 import StorefrontPreview from "./pages/admin/StorefrontPreview.tsx";
+import Settings from "./pages/admin/Settings.tsx";
+import Customers from "./pages/admin/Customers.tsx";
+import Analytics from "./pages/admin/Analytics.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,9 @@ const App = () => (
             <Route path="products" element={<Products />} />
             <Route path="sales" element={<Sales />} />
             <Route path="storefront" element={<StorefrontPreview />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="analytics" element={<Analytics />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
