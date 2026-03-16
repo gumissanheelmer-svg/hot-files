@@ -95,6 +95,7 @@ const Index = () => {
                   fileSize={product.file_size || undefined}
                   originalPrice={Number(product.original_price)}
                   salePrice={Number(product.sale_price)}
+                  benefits={product.benefits || undefined}
                 />
               </motion.div>
             ))}
