@@ -108,6 +108,7 @@ const Index = () => {
                   benefits={product.benefits || undefined}
                   dmLink={dmLink || undefined}
                   videoUrl={product.video_url || undefined}
+                />
               </motion.div>
             ))}
           </div>
