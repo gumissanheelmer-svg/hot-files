@@ -25,6 +25,7 @@ const ProductCard = ({
   fileSize,
   originalPrice,
   salePrice,
+  benefits,
 }: ProductCardProps) => {
   return (
     <div className="card-surface overflow-hidden">
