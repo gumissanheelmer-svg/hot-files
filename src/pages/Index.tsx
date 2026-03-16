@@ -17,6 +17,7 @@ interface DBProduct {
   discount_percentage: number;
   sale_price: number;
   stock: number | null;
+  benefits: string[] | null;
 }
 
 const Index = () => {
