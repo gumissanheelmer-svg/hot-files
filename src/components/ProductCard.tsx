@@ -74,8 +74,6 @@ const ProductCard = ({
           <span className="text-2xl font-black text-primary">${salePrice}</span>
         </div>
 
-        <button className="btn-pay">💳 PAY ${salePrice}</button>
-
         {dmLink && (
           <a
             href={dmLink}
