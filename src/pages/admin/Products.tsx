@@ -57,6 +57,7 @@ const emptyForm = {
   stock: "",
   payment_link: "",
   support_link: "",
+  benefits: [] as string[],
 };
 
 export default function Products() {
