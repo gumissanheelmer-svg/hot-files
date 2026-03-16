@@ -130,6 +130,8 @@ export type Database = {
       site_settings: {
         Row: {
           currency: string | null
+          dm_link: string | null
+          dm_platform: string | null
           enable_discounts: boolean | null
           enable_scarcity: boolean | null
           id: number
@@ -140,6 +142,8 @@ export type Database = {
         }
         Insert: {
           currency?: string | null
+          dm_link?: string | null
+          dm_platform?: string | null
           enable_discounts?: boolean | null
           enable_scarcity?: boolean | null
           id: number
@@ -150,6 +154,8 @@ export type Database = {
         }
         Update: {
           currency?: string | null
+          dm_link?: string | null
+          dm_platform?: string | null
           enable_discounts?: boolean | null
           enable_scarcity?: boolean | null
           id?: number
