@@ -132,6 +132,7 @@ export default function Products() {
       stock: p.stock?.toString() || "",
       payment_link: p.payment_link || "",
       support_link: p.support_link || "",
+      benefits: p.benefits || [],
     });
     setDialogOpen(true);
   };
