@@ -220,16 +220,6 @@ export default function Products() {
                   <Input type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} className="bg-input border-border/50" placeholder="Vazio = ilimitado" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Link de Pagamento</Label>
-                  <Input value={form.payment_link} onChange={(e) => setForm({ ...form, payment_link: e.target.value })} className="bg-input border-border/50" placeholder="https://stripe.com/..." />
-                </div>
-                <div className="space-y-2">
-                  <Label>Link de Suporte</Label>
-                  <Input value={form.support_link} onChange={(e) => setForm({ ...form, support_link: e.target.value })} className="bg-input border-border/50" placeholder="https://t.me/suporte" />
-                </div>
-              </div>
               <Button onClick={handleSave} className="w-full bg-primary hover:bg-primary/90 mt-2">
                 {editingId ? "Atualizar Produto" : "Criar Produto"}
               </Button>
