@@ -1,0 +1,1 @@
+ALTER TABLE public.admin_products ADD COLUMN benefits text[] DEFAULT '{}'::text[];
