@@ -120,13 +120,13 @@ const SocialProofPopup = () => {
       {visible && notification && (
         <motion.div
           key={notification.id}
-          initial={{ opacity: 0, y: 60, scale: 0.95 }}
+          initial={{ opacity: 0, y: -60, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 30, scale: 0.95 }}
+          exit={{ opacity: 0, y: -30, scale: 0.95 }}
           transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className="fixed bottom-5 left-5 z-[100] w-[320px] max-sm:left-[5%] max-sm:w-[90%] max-sm:bottom-4 cursor-pointer"
+          className="fixed top-5 right-5 z-[100] w-[320px] max-sm:right-[5%] max-sm:w-[90%] max-sm:top-4 cursor-pointer"
           onClick={handleDismiss}
         >
           <div
