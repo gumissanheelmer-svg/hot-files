@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { Plus, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import BenefitsEditor from "@/components/admin/BenefitsEditor";
 
 interface Product {
   id: string;
@@ -40,6 +41,7 @@ interface Product {
   description: string | null;
   payment_link: string | null;
   support_link: string | null;
+  benefits: string[] | null;
 }
 
 const emptyForm = {
@@ -55,6 +57,7 @@ const emptyForm = {
   stock: "",
   payment_link: "",
   support_link: "",
+  benefits: [] as string[],
 };
 
 export default function Products() {
@@ -92,6 +95,7 @@ export default function Products() {
       stock: form.stock ? parseInt(form.stock) : null,
       payment_link: form.payment_link || null,
       support_link: form.support_link || null,
+      benefits: form.benefits.filter(b => b.trim() !== ""),
     };
 
     let error;
@@ -128,6 +132,7 @@ export default function Products() {
       stock: p.stock?.toString() || "",
       payment_link: p.payment_link || "",
       support_link: p.support_link || "",
+      benefits: p.benefits || [],
     });
     setDialogOpen(true);
   };
@@ -178,6 +183,7 @@ export default function Products() {
                 <Label>Descrição</Label>
                 <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="bg-input border-border/50" rows={3} />
               </div>
+              <BenefitsEditor benefits={form.benefits} onChange={(benefits) => setForm({ ...form, benefits })} />
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Arquivos Incluídos</Label>

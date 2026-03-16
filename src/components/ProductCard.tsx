@@ -1,3 +1,5 @@
+import { CheckCircle } from "lucide-react";
+
 interface ProductCardProps {
   title: string;
   image: string;
@@ -9,6 +11,7 @@ interface ProductCardProps {
   fileSize?: string;
   originalPrice: number;
   salePrice: number;
+  benefits?: string[];
 }
 
 const ProductCard = ({
@@ -22,6 +25,7 @@ const ProductCard = ({
   fileSize,
   originalPrice,
   salePrice,
+  benefits,
 }: ProductCardProps) => {
   return (
     <div className="card-surface overflow-hidden">
@@ -44,6 +48,17 @@ const ProductCard = ({
             </span>
           ))}
         </div>
+
+        {benefits && benefits.length > 0 && (
+          <div className="space-y-1">
+            {benefits.map((benefit, i) => (
+              <div key={i} className="flex items-center gap-1.5">
+                <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span className="text-xs font-bold text-foreground">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {(fileCount || fileSize) && (
           <div className="flex gap-4 text-xs text-muted-foreground tabular-nums">

@@ -17,6 +17,7 @@ interface DBProduct {
   discount_percentage: number;
   sale_price: number;
   stock: number | null;
+  benefits: string[] | null;
 }
 
 const Index = () => {
@@ -28,7 +29,7 @@ const Index = () => {
     const fetchProducts = async () => {
       const { data } = await supabase
         .from("admin_products")
-        .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock")
+        .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock, benefits")
         .eq("status", "active")
         .order("created_at", { ascending: true });
       setProducts((data as DBProduct[]) || []);
@@ -94,6 +95,7 @@ const Index = () => {
                   fileSize={product.file_size || undefined}
                   originalPrice={Number(product.original_price)}
                   salePrice={Number(product.sale_price)}
+                  benefits={product.benefits || undefined}
                 />
               </motion.div>
             ))}

@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       admin_products: {
         Row: {
+          benefits: string[] | null
           category: string
           created_at: string
           description: string | null
@@ -35,6 +36,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          benefits?: string[] | null
           category?: string
           created_at?: string
           description?: string | null
@@ -54,6 +56,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          benefits?: string[] | null
           category?: string
           created_at?: string
           description?: string | null
