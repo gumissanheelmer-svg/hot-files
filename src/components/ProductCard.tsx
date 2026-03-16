@@ -1,3 +1,5 @@
+import { CheckCircle } from "lucide-react";
+
 interface ProductCardProps {
   title: string;
   image: string;
@@ -9,6 +11,7 @@ interface ProductCardProps {
   fileSize?: string;
   originalPrice: number;
   salePrice: number;
+  benefits?: string[];
 }
 
 const ProductCard = ({
