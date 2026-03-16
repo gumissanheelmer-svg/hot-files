@@ -107,7 +107,7 @@ const Index = () => {
                   salePrice={Number(product.sale_price)}
                   benefits={product.benefits || undefined}
                   dmLink={dmLink || undefined}
-                />
+                  videoUrl={product.video_url || undefined}
               </motion.div>
             ))}
           </div>
