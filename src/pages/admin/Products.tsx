@@ -183,6 +183,7 @@ export default function Products() {
                 <Label>Descrição</Label>
                 <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="bg-input border-border/50" rows={3} />
               </div>
+              <BenefitsEditor benefits={form.benefits} onChange={(benefits) => setForm({ ...form, benefits })} />
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Arquivos Incluídos</Label>
