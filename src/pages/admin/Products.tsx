@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Package } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, Video, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import BenefitsEditor from "@/components/admin/BenefitsEditor";
 
@@ -39,9 +39,8 @@ interface Product {
   stock: number | null;
   status: string;
   description: string | null;
-  payment_link: string | null;
-  support_link: string | null;
   benefits: string[] | null;
+  video_url: string | null;
 }
 
 const emptyForm = {
@@ -55,9 +54,8 @@ const emptyForm = {
   original_price: 0,
   discount_percentage: 0,
   stock: "",
-  payment_link: "",
-  support_link: "",
   benefits: [] as string[],
+  video_url: "",
 };
 
 export default function Products() {
@@ -65,6 +63,8 @@ export default function Products() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const videoInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const fetchProducts = async () => {
@@ -81,6 +81,36 @@ export default function Products() {
 
   const calculatedPrice = form.original_price * (1 - form.discount_percentage / 100);
 
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 50 * 1024 * 1024) {
+      toast({ title: "Erro", description: "O vídeo deve ter no máximo 50MB", variant: "destructive" });
+      return;
+    }
+    if (!file.type.startsWith("video/")) {
+      toast({ title: "Erro", description: "Selecione um arquivo de vídeo válido", variant: "destructive" });
+      return;
+    }
+    setUploadingVideo(true);
+    const fileName = `${Date.now()}-${file.name}`;
+    const { error } = await supabase.storage.from("product-videos").upload(fileName, file);
+    if (error) {
+      toast({ title: "Erro no upload", description: error.message, variant: "destructive" });
+      setUploadingVideo(false);
+      return;
+    }
+    const { data: urlData } = supabase.storage.from("product-videos").getPublicUrl(fileName);
+    setForm((prev) => ({ ...prev, video_url: urlData.publicUrl }));
+    setUploadingVideo(false);
+    toast({ title: "Vídeo enviado com sucesso" });
+  };
+
+  const removeVideo = () => {
+    setForm((prev) => ({ ...prev, video_url: "" }));
+    if (videoInputRef.current) videoInputRef.current.value = "";
+  };
+
   const handleSave = async () => {
     const payload = {
       title: form.title,
@@ -93,9 +123,8 @@ export default function Products() {
       original_price: form.original_price,
       discount_percentage: form.discount_percentage,
       stock: form.stock ? parseInt(form.stock) : null,
-      payment_link: form.payment_link || null,
-      support_link: form.support_link || null,
       benefits: form.benefits.filter(b => b.trim() !== ""),
+      video_url: form.video_url || null,
     };
 
     let error;
@@ -130,9 +159,8 @@ export default function Products() {
       original_price: p.original_price,
       discount_percentage: p.discount_percentage,
       stock: p.stock?.toString() || "",
-      payment_link: p.payment_link || "",
-      support_link: p.support_link || "",
       benefits: p.benefits || [],
+      video_url: p.video_url || "",
     });
     setDialogOpen(true);
   };
@@ -183,6 +211,41 @@ export default function Products() {
                 <Label>Descrição</Label>
                 <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="bg-input border-border/50" rows={3} />
               </div>
+
+              {/* Video Upload */}
+              <div className="space-y-2">
+                <Label>Vídeo do Produto (máx. 50MB)</Label>
+                <input
+                  ref={videoInputRef}
+                  type="file"
+                  accept="video/*"
+                  onChange={handleVideoUpload}
+                  className="hidden"
+                />
+                {form.video_url ? (
+                  <div className="space-y-2">
+                    <video src={form.video_url} controls className="w-full rounded-lg max-h-48 bg-black" />
+                    <Button type="button" variant="outline" size="sm" onClick={removeVideo} className="gap-1.5 text-destructive hover:text-destructive">
+                      <X className="w-3.5 h-3.5" /> Remover vídeo
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => videoInputRef.current?.click()}
+                    disabled={uploadingVideo}
+                    className="w-full border-dashed gap-2"
+                  >
+                    {uploadingVideo ? (
+                      <><div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" /> Enviando...</>
+                    ) : (
+                      <><Video className="w-4 h-4" /> Selecionar vídeo</>
+                    )}
+                  </Button>
+                )}
+              </div>
+
               <BenefitsEditor benefits={form.benefits} onChange={(benefits) => setForm({ ...form, benefits })} />
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
