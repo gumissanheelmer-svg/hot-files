@@ -29,7 +29,7 @@ const Index = () => {
     const fetchProducts = async () => {
       const { data } = await supabase
         .from("admin_products")
-        .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock")
+        .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock, benefits")
         .eq("status", "active")
         .order("created_at", { ascending: true });
       setProducts((data as DBProduct[]) || []);
