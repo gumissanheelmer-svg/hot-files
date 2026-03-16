@@ -95,6 +95,7 @@ export default function Products() {
       stock: form.stock ? parseInt(form.stock) : null,
       payment_link: form.payment_link || null,
       support_link: form.support_link || null,
+      benefits: form.benefits.filter(b => b.trim() !== ""),
     };
 
     let error;
