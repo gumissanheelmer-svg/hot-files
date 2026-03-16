@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { Plus, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import BenefitsEditor from "@/components/admin/BenefitsEditor";
 
 interface Product {
   id: string;
