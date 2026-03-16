@@ -65,19 +65,6 @@ export default function Settings() {
         <p className="text-sm text-muted-foreground mt-1">Configure o seu marketplace</p>
       </div>
 
-      <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-primary" /> Pagamento
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Link de Pagamento</Label>
-            <Input value={form.payment_link} onChange={(e) => setForm({ ...form, payment_link: e.target.value })} className="bg-input border-border/50" placeholder="https://stripe.com/pay/..." />
-          </div>
-        </CardContent>
-      </Card>
 
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
         <CardHeader>
