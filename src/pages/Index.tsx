@@ -18,6 +18,7 @@ interface DBProduct {
   sale_price: number;
   stock: number | null;
   benefits: string[] | null;
+  video_url: string | null;
 }
 
 const Index = () => {
