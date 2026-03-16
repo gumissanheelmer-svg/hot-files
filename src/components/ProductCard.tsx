@@ -1,4 +1,5 @@
 import { CheckCircle } from "lucide-react";
+import { useState } from "react";
 
 interface ProductCardProps {
   title: string;
@@ -13,6 +14,7 @@ interface ProductCardProps {
   salePrice: number;
   benefits?: string[];
   dmLink?: string;
+  videoUrl?: string;
 }
 
 const ProductCard = ({
@@ -28,10 +30,36 @@ const ProductCard = ({
   salePrice,
   benefits,
   dmLink,
+  videoUrl,
 }: ProductCardProps) => {
+  const [showVideo, setShowVideo] = useState(false);
+
   return (
     <div className="card-surface overflow-hidden">
-      <img src={image} alt={title} className="w-full h-40 object-cover" />
+      <div className="relative">
+        {showVideo && videoUrl ? (
+          <video
+            src={videoUrl}
+            controls
+            autoPlay
+            className="w-full h-40 object-cover bg-black"
+          />
+        ) : (
+          <img src={image} alt={title} className="w-full h-40 object-cover" />
+        )}
+        {videoUrl && !showVideo && (
+          <button
+            onClick={() => setShowVideo(true)}
+            className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/50 transition-colors"
+          >
+            <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center">
+              <svg className="w-5 h-5 text-primary-foreground ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </button>
+        )}
+      </div>
       <div className="p-4 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-foreground">{title}</h3>

@@ -18,6 +18,7 @@ interface DBProduct {
   sale_price: number;
   stock: number | null;
   benefits: string[] | null;
+  video_url: string | null;
 }
 
 const Index = () => {
@@ -31,7 +32,7 @@ const Index = () => {
       const [productsRes, settingsRes] = await Promise.all([
         supabase
           .from("admin_products")
-          .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock, benefits")
+          .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock, benefits, video_url")
           .eq("status", "active")
           .order("created_at", { ascending: true }),
         supabase
@@ -106,6 +107,7 @@ const Index = () => {
                   salePrice={Number(product.sale_price)}
                   benefits={product.benefits || undefined}
                   dmLink={dmLink || undefined}
+                  videoUrl={product.video_url || undefined}
                 />
               </motion.div>
             ))}
