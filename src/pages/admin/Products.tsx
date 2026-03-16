@@ -41,6 +41,7 @@ interface Product {
   description: string | null;
   payment_link: string | null;
   support_link: string | null;
+  benefits: string[] | null;
 }
 
 const emptyForm = {
