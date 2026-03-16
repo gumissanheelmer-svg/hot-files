@@ -24,18 +24,27 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<DBProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [dmLink, setDmLink] = useState("");
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await supabase
-        .from("admin_products")
-        .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock, benefits")
-        .eq("status", "active")
-        .order("created_at", { ascending: true });
-      setProducts((data as DBProduct[]) || []);
+    const fetchData = async () => {
+      const [productsRes, settingsRes] = await Promise.all([
+        supabase
+          .from("admin_products")
+          .select("id, title, thumbnail_url, tags, file_count, file_size, original_price, discount_percentage, sale_price, stock, benefits")
+          .eq("status", "active")
+          .order("created_at", { ascending: true }),
+        supabase
+          .from("site_settings")
+          .select("dm_link")
+          .eq("id", 1)
+          .single(),
+      ]);
+      setProducts((productsRes.data as DBProduct[]) || []);
+      setDmLink((settingsRes.data as any)?.dm_link || "");
       setLoading(false);
     };
-    fetchProducts();
+    fetchData();
   }, []);
 
   const filteredProducts = products.filter((p) =>
@@ -96,6 +105,7 @@ const Index = () => {
                   originalPrice={Number(product.original_price)}
                   salePrice={Number(product.sale_price)}
                   benefits={product.benefits || undefined}
+                  dmLink={dmLink || undefined}
                 />
               </motion.div>
             ))}

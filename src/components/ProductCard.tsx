@@ -12,6 +12,7 @@ interface ProductCardProps {
   originalPrice: number;
   salePrice: number;
   benefits?: string[];
+  dmLink?: string;
 }
 
 const ProductCard = ({
@@ -26,6 +27,7 @@ const ProductCard = ({
   originalPrice,
   salePrice,
   benefits,
+  dmLink,
 }: ProductCardProps) => {
   return (
     <div className="card-surface overflow-hidden">
@@ -73,7 +75,17 @@ const ProductCard = ({
         </div>
 
         <button className="btn-pay">💳 PAY ${salePrice}</button>
-        <button className="btn-secondary-action">SUPPORT / SEND PROOF</button>
+
+        {dmLink && (
+          <a
+            href={dmLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center py-3.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[hsl(255,62%,55%)] to-[hsl(280,60%,55%)] hover:from-[hsl(255,62%,62%)] hover:to-[hsl(280,60%,62%)] shadow-[0_0_20px_hsl(255_62%_62%/0.3)] hover:shadow-[0_0_30px_hsl(255_62%_62%/0.5)] transition-all duration-300"
+          >
+            💬 Get Instant Access — DM Me Now
+          </a>
+        )}
       </div>
     </div>
   );

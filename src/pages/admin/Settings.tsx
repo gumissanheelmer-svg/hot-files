@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Save, CreditCard, MessageCircle, Settings as SettingsIcon } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Save, MessageCircle, Settings as SettingsIcon, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
@@ -14,11 +15,12 @@ export default function Settings() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     site_name: "",
-    payment_link: "",
     support_link: "",
     currency: "USD",
     enable_discounts: true,
     enable_scarcity: true,
+    dm_platform: "telegram",
+    dm_link: "",
   });
 
   useEffect(() => {
@@ -27,11 +29,12 @@ export default function Settings() {
       if (data) {
         setForm({
           site_name: data.site_name || "",
-          payment_link: data.payment_link || "",
           support_link: data.support_link || "",
           currency: data.currency || "USD",
           enable_discounts: data.enable_discounts ?? true,
           enable_scarcity: data.enable_scarcity ?? true,
+          dm_platform: (data as any).dm_platform || "telegram",
+          dm_link: (data as any).dm_link || "",
         });
       }
       setLoading(false);
@@ -41,13 +44,28 @@ export default function Settings() {
 
   const handleSave = async () => {
     setSaving(true);
-    const { error } = await supabase.from("site_settings").update(form).eq("id", 1);
+    const { error } = await supabase.from("site_settings").update({
+      site_name: form.site_name,
+      support_link: form.support_link,
+      currency: form.currency,
+      enable_discounts: form.enable_discounts,
+      enable_scarcity: form.enable_scarcity,
+      dm_platform: form.dm_platform,
+      dm_link: form.dm_link,
+    } as any).eq("id", 1);
     if (error) {
       toast({ title: "Erro", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Configurações salvas" });
     }
     setSaving(false);
+  };
+
+  const dmPlaceholders: Record<string, string> = {
+    telegram: "https://t.me/username",
+    whatsapp: "https://wa.me/258XXXXXXXXX",
+    instagram: "https://instagram.com/username",
+    custom: "https://...",
   };
 
   if (loading) {
@@ -65,6 +83,41 @@ export default function Settings() {
         <p className="text-sm text-muted-foreground mt-1">Configure o seu marketplace</p>
       </div>
 
+      <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Send className="w-5 h-5 text-primary" /> Contato por DM
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>Plataforma de DM</Label>
+            <Select value={form.dm_platform} onValueChange={(v) => setForm({ ...form, dm_platform: v })}>
+              <SelectTrigger className="bg-input border-border/50">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="telegram">Telegram</SelectItem>
+                <SelectItem value="whatsapp">WhatsApp</SelectItem>
+                <SelectItem value="instagram">Instagram</SelectItem>
+                <SelectItem value="custom">Link Personalizado</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Link de DM</Label>
+            <Input
+              value={form.dm_link}
+              onChange={(e) => setForm({ ...form, dm_link: e.target.value })}
+              className="bg-input border-border/50"
+              placeholder={dmPlaceholders[form.dm_platform] || "https://..."}
+            />
+            <p className="text-xs text-muted-foreground">
+              Este link será usado no botão "DM Me Now" em todos os cards de produto.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
         <CardHeader>
