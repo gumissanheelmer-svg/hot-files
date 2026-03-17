@@ -83,6 +83,36 @@ export default function Products() {
 
   const calculatedPrice = form.original_price * (1 - form.discount_percentage / 100);
 
+  const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: "Erro", description: "A imagem deve ter no máximo 5MB", variant: "destructive" });
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Erro", description: "Selecione um arquivo de imagem válido", variant: "destructive" });
+      return;
+    }
+    setUploadingThumbnail(true);
+    const fileName = `${Date.now()}-${file.name}`;
+    const { error } = await supabase.storage.from("product-thumbnails").upload(fileName, file);
+    if (error) {
+      toast({ title: "Erro no upload", description: error.message, variant: "destructive" });
+      setUploadingThumbnail(false);
+      return;
+    }
+    const { data: urlData } = supabase.storage.from("product-thumbnails").getPublicUrl(fileName);
+    setForm((prev) => ({ ...prev, thumbnail_url: urlData.publicUrl }));
+    setUploadingThumbnail(false);
+    toast({ title: "Imagem enviada com sucesso" });
+  };
+
+  const removeThumbnail = () => {
+    setForm((prev) => ({ ...prev, thumbnail_url: "" }));
+    if (thumbnailInputRef.current) thumbnailInputRef.current.value = "";
+  };
+
   const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
