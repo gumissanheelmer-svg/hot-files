@@ -83,6 +83,12 @@ export default function Settings() {
         <p className="text-sm text-muted-foreground mt-1">Configure o seu marketplace</p>
       </div>
 
+      {!form.dm_link && (
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm font-medium">
+          ⚠️ DM link not configured. Users cannot contact you. Set it below.
+        </div>
+      )}
+
       <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">

@@ -1,5 +1,6 @@
 import { CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   title: string;
@@ -15,6 +16,35 @@ interface ProductCardProps {
   benefits?: string[];
   dmLink?: string;
   videoUrl?: string;
+}
+
+const FALLBACK_DM_LINK = "https://wa.me/258000000000?text=Hello%20I%20want%20to%20buy%20this%20product";
+
+function ensureHttps(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return "";
+  if (trimmed.startsWith("https://") || trimmed.startsWith("http://")) return trimmed;
+  return `https://${trimmed}`;
+}
+
+function buildDmUrl(rawLink: string, title: string, price: number): string {
+  const link = ensureHttps(rawLink || "") || FALLBACK_DM_LINK;
+  const message = `Hello, I want to buy "${title}" for $${price}`;
+  const encoded = encodeURIComponent(message);
+
+  try {
+    const url = new URL(link);
+    if (url.hostname.includes("wa.me")) {
+      url.searchParams.set("text", message);
+      return url.toString();
+    }
+    if (url.hostname.includes("t.me")) {
+      return `${url.origin}${url.pathname}?text=${encoded}`;
+    }
+    return link;
+  } catch {
+    return FALLBACK_DM_LINK;
+  }
 }
 
 const ProductCard = ({
@@ -33,6 +63,23 @@ const ProductCard = ({
   videoUrl,
 }: ProductCardProps) => {
   const [showVideo, setShowVideo] = useState(false);
+  const [clicking, setClicking] = useState(false);
+
+  const handleDmClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    if (clicking) return;
+    setClicking(true);
+
+    const finalUrl = buildDmUrl(dmLink || "", title, salePrice);
+
+    try {
+      window.open(finalUrl, "_blank", "noopener,noreferrer");
+    } catch {
+      toast({ title: "Unable to open DM. Please try again.", variant: "destructive" });
+    }
+
+    setTimeout(() => setClicking(false), 1000);
+  }, [clicking, dmLink, title, salePrice]);
 
   return (
     <div className="card-surface overflow-hidden">
@@ -102,16 +149,20 @@ const ProductCard = ({
           <span className="text-2xl font-black text-primary">${salePrice}</span>
         </div>
 
-        {dmLink && (
-          <a
-            href={dmLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full text-center py-3.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[hsl(255,62%,55%)] to-[hsl(280,60%,55%)] hover:from-[hsl(255,62%,62%)] hover:to-[hsl(280,60%,62%)] shadow-[0_0_20px_hsl(255_62%_62%/0.3)] hover:shadow-[0_0_30px_hsl(255_62%_62%/0.5)] transition-all duration-300"
-          >
-            💬 Get Instant Access — DM Me Now
-          </a>
-        )}
+        <button
+          onClick={handleDmClick}
+          disabled={clicking}
+          className="block w-full text-center py-3.5 rounded-xl font-bold text-sm text-primary-foreground bg-gradient-to-r from-[hsl(255,62%,55%)] to-[hsl(280,60%,55%)] hover:from-[hsl(255,62%,62%)] hover:to-[hsl(280,60%,62%)] shadow-[0_0_20px_hsl(255_62%_62%/0.3)] hover:shadow-[0_0_30px_hsl(255_62%_62%/0.5)] transition-all duration-300 disabled:opacity-70"
+        >
+          {clicking ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+              Opening...
+            </span>
+          ) : (
+            "💬 Get Instant Access — DM Me Now"
+          )}
+        </button>
       </div>
     </div>
   );
