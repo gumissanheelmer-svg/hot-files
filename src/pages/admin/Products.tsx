@@ -41,6 +41,8 @@ interface Product {
   description: string | null;
   benefits: string[] | null;
   video_url: string | null;
+  payment_link: string | null;
+  support_link: string | null;
 }
 
 const emptyForm = {
@@ -56,6 +58,8 @@ const emptyForm = {
   stock: "",
   benefits: [] as string[],
   video_url: "",
+  payment_link: "",
+  support_link: "",
 };
 
 export default function Products() {
@@ -157,6 +161,8 @@ export default function Products() {
       stock: form.stock ? parseInt(form.stock) : null,
       benefits: form.benefits.filter(b => b.trim() !== ""),
       video_url: form.video_url || null,
+      payment_link: form.payment_link || null,
+      support_link: form.support_link || null,
     };
 
     let error;
@@ -193,6 +199,8 @@ export default function Products() {
       stock: p.stock?.toString() || "",
       benefits: p.benefits || [],
       video_url: p.video_url || "",
+      payment_link: (p as any).payment_link || "",
+      support_link: (p as any).support_link || "",
     });
     setDialogOpen(true);
   };
@@ -341,6 +349,16 @@ export default function Products() {
                 <div className="space-y-2">
                   <Label>Estoque (opcional)</Label>
                   <Input type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} className="bg-input border-border/50" placeholder="Vazio = ilimitado" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Link de Pagamento</Label>
+                  <Input value={form.payment_link} onChange={(e) => setForm({ ...form, payment_link: e.target.value })} className="bg-input border-border/50" placeholder="https://paypal.me/..." />
+                </div>
+                <div className="space-y-2">
+                  <Label>Link de Suporte</Label>
+                  <Input value={form.support_link} onChange={(e) => setForm({ ...form, support_link: e.target.value })} className="bg-input border-border/50" placeholder="https://t.me/..." />
                 </div>
               </div>
               <Button onClick={handleSave} className="w-full bg-primary hover:bg-primary/90 mt-2">
