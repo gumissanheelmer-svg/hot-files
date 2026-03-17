@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Package, Video, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, Video, X, Upload, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import BenefitsEditor from "@/components/admin/BenefitsEditor";
 
@@ -64,7 +64,9 @@ export default function Products() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
   const videoInputRef = useRef<HTMLInputElement>(null);
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const fetchProducts = async () => {
@@ -80,6 +82,36 @@ export default function Products() {
   }, []);
 
   const calculatedPrice = form.original_price * (1 - form.discount_percentage / 100);
+
+  const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: "Erro", description: "A imagem deve ter no máximo 5MB", variant: "destructive" });
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Erro", description: "Selecione um arquivo de imagem válido", variant: "destructive" });
+      return;
+    }
+    setUploadingThumbnail(true);
+    const fileName = `${Date.now()}-${file.name}`;
+    const { error } = await supabase.storage.from("product-thumbnails").upload(fileName, file);
+    if (error) {
+      toast({ title: "Erro no upload", description: error.message, variant: "destructive" });
+      setUploadingThumbnail(false);
+      return;
+    }
+    const { data: urlData } = supabase.storage.from("product-thumbnails").getPublicUrl(fileName);
+    setForm((prev) => ({ ...prev, thumbnail_url: urlData.publicUrl }));
+    setUploadingThumbnail(false);
+    toast({ title: "Imagem enviada com sucesso" });
+  };
+
+  const removeThumbnail = () => {
+    setForm((prev) => ({ ...prev, thumbnail_url: "" }));
+    if (thumbnailInputRef.current) thumbnailInputRef.current.value = "";
+  };
 
   const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -204,8 +236,36 @@ export default function Products() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>URL da Thumbnail</Label>
-                <Input value={form.thumbnail_url} onChange={(e) => setForm({ ...form, thumbnail_url: e.target.value })} className="bg-input border-border/50" />
+                <Label>Thumbnail do Produto (máx. 5MB)</Label>
+                <input
+                  ref={thumbnailInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleThumbnailUpload}
+                  className="hidden"
+                />
+                {form.thumbnail_url ? (
+                  <div className="space-y-2">
+                    <img src={form.thumbnail_url} alt="Thumbnail" className="w-full rounded-lg max-h-48 object-cover" />
+                    <Button type="button" variant="outline" size="sm" onClick={removeThumbnail} className="gap-1.5 text-destructive hover:text-destructive">
+                      <X className="w-3.5 h-3.5" /> Remover imagem
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => thumbnailInputRef.current?.click()}
+                    disabled={uploadingThumbnail}
+                    className="w-full border-dashed gap-2"
+                  >
+                    {uploadingThumbnail ? (
+                      <><div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" /> Enviando...</>
+                    ) : (
+                      <><ImageIcon className="w-4 h-4" /> Selecionar imagem</>
+                    )}
+                  </Button>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Descrição</Label>
