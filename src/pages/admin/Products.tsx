@@ -236,8 +236,36 @@ export default function Products() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>URL da Thumbnail</Label>
-                <Input value={form.thumbnail_url} onChange={(e) => setForm({ ...form, thumbnail_url: e.target.value })} className="bg-input border-border/50" />
+                <Label>Thumbnail do Produto (máx. 5MB)</Label>
+                <input
+                  ref={thumbnailInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleThumbnailUpload}
+                  className="hidden"
+                />
+                {form.thumbnail_url ? (
+                  <div className="space-y-2">
+                    <img src={form.thumbnail_url} alt="Thumbnail" className="w-full rounded-lg max-h-48 object-cover" />
+                    <Button type="button" variant="outline" size="sm" onClick={removeThumbnail} className="gap-1.5 text-destructive hover:text-destructive">
+                      <X className="w-3.5 h-3.5" /> Remover imagem
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => thumbnailInputRef.current?.click()}
+                    disabled={uploadingThumbnail}
+                    className="w-full border-dashed gap-2"
+                  >
+                    {uploadingThumbnail ? (
+                      <><div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" /> Enviando...</>
+                    ) : (
+                      <><ImageIcon className="w-4 h-4" /> Selecionar imagem</>
+                    )}
+                  </Button>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Descrição</Label>
