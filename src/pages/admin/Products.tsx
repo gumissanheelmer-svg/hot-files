@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Package, Video, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, Video, X, Upload, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import BenefitsEditor from "@/components/admin/BenefitsEditor";
 
