@@ -197,6 +197,8 @@ export default function Products() {
       stock: p.stock?.toString() || "",
       benefits: p.benefits || [],
       video_url: p.video_url || "",
+      payment_link: (p as any).payment_link || "",
+      support_link: (p as any).support_link || "",
     });
     setDialogOpen(true);
   };
