@@ -1,8 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { toast } from "@/hooks/use-toast";
 import heroBanner from "@/assets/hero-banner.jpg";
 
-const HeroCard = () => {
+interface HeroCardProps {
+  dmLink?: string;
+}
+
+const FALLBACK_DM_LINK = "https://wa.me/258000000000?text=Hello%20I%20want%20to%20buy%20this%20product";
+
+function buildHeroDmUrl(rawLink: string): string {
+  let link = rawLink.trim();
+  if (!link) return FALLBACK_DM_LINK;
+  if (!link.startsWith("https://") && !link.startsWith("http://")) link = `https://${link}`;
+  const message = `Hello, I want to buy the VIP ALL ACCESS pack for $150`;
+  try {
+    const url = new URL(link);
+    if (url.hostname.includes("wa.me")) { url.searchParams.set("text", message); return url.toString(); }
+    if (url.hostname.includes("t.me")) return `${url.origin}${url.pathname}?text=${encodeURIComponent(message)}`;
+    return link;
+  } catch { return FALLBACK_DM_LINK; }
+}
+
+const HeroCard = ({ dmLink = "" }: HeroCardProps) => {
   const [timeLeft, setTimeLeft] = useState({ minutes: 14, seconds: 56 });
+  const [clicking, setClicking] = useState(false);
+
+  const handleDmClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    if (clicking) return;
+    setClicking(true);
+    try { window.open(buildHeroDmUrl(dmLink), "_blank", "noopener,noreferrer"); }
+    catch { toast({ title: "Unable to open DM. Please try again.", variant: "destructive" }); }
+    setTimeout(() => setClicking(false), 1000);
+  }, [clicking, dmLink]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,8 +87,20 @@ const HeroCard = () => {
           <span className="badge-discount">SAVE $150</span>
         </div>
 
-        <button className="btn-pay">💳 PAY $150 – PAYPAL</button>
-        <button className="btn-secondary-action">SUPPORT / SEND PROOF</button>
+        <button
+          onClick={handleDmClick}
+          disabled={clicking}
+          className="block w-full text-center py-3.5 rounded-xl font-bold text-sm text-primary-foreground bg-gradient-to-r from-[hsl(255,62%,55%)] to-[hsl(280,60%,55%)] hover:from-[hsl(255,62%,62%)] hover:to-[hsl(280,60%,62%)] shadow-[0_0_20px_hsl(255_62%_62%/0.3)] hover:shadow-[0_0_30px_hsl(255_62%_62%/0.5)] transition-all duration-300 disabled:opacity-70"
+        >
+          {clicking ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+              Opening...
+            </span>
+          ) : (
+            "💬 Get Instant Access — DM Me Now"
+          )}
+        </button>
       </div>
     </div>
   );

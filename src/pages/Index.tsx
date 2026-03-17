@@ -76,7 +76,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <HeroCard />
+          <HeroCard dmLink={dmLink} />
         </motion.div>
 
         {loading ? (
