@@ -56,6 +56,8 @@ const emptyForm = {
   stock: "",
   benefits: [] as string[],
   video_url: "",
+  payment_link: "",
+  support_link: "",
 };
 
 export default function Products() {
