@@ -34,6 +34,7 @@ export type Database = {
           thumbnail_url: string | null
           title: string
           updated_at: string
+          user_id: string | null
           video_url: string | null
         }
         Insert: {
@@ -55,6 +56,7 @@ export type Database = {
           thumbnail_url?: string | null
           title: string
           updated_at?: string
+          user_id?: string | null
           video_url?: string | null
         }
         Update: {
@@ -76,7 +78,44 @@ export type Database = {
           thumbnail_url?: string | null
           title?: string
           updated_at?: string
+          user_id?: string | null
           video_url?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          logo_url: string | null
+          primary_color: string | null
+          store_name: string
+          store_slug: string | null
+          telegram_link: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          logo_url?: string | null
+          primary_color?: string | null
+          store_name?: string
+          store_slug?: string | null
+          telegram_link?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          logo_url?: string | null
+          primary_color?: string | null
+          store_name?: string
+          store_slug?: string | null
+          telegram_link?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -92,6 +131,7 @@ export type Database = {
           product_title: string
           status: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -104,6 +144,7 @@ export type Database = {
           product_title: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -116,6 +157,7 @@ export type Database = {
           product_title?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
