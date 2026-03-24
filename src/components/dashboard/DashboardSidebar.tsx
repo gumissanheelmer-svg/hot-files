@@ -28,6 +28,7 @@ const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Products", url: "/dashboard/products", icon: Package },
   { title: "Sales", url: "/dashboard/sales", icon: ShoppingCart },
+  { title: "Timeline", url: "/dashboard/timeline", icon: Clock },
   { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3 },
   { title: "Settings", url: "/dashboard/settings", icon: Settings },
 ];
