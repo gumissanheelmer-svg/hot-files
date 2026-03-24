@@ -84,7 +84,12 @@ export default function DashboardSettings() {
       telegram_link: form.telegram_link,
       primary_color: form.primary_color,
       logo_url: form.logo_url || null,
-    }).eq("id", userId);
+      timeline_enabled: form.timeline_enabled,
+      timeline_mode: form.timeline_mode,
+      timeline_auto_delete: form.timeline_auto_delete,
+      timeline_show_timestamps: form.timeline_show_timestamps,
+      timeline_show_views: form.timeline_show_views,
+    } as any).eq("id", userId);
 
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
