@@ -174,6 +174,46 @@ export default function DashboardSettings() {
         </CardContent>
       </Card>
 
+      <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
+        <CardHeader><CardTitle className="text-lg flex items-center gap-2"><Clock className="w-5 h-5 text-primary" /> Timeline Settings</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Label>Enable Timeline</Label>
+            <Switch checked={form.timeline_enabled} onCheckedChange={(v) => setForm({ ...form, timeline_enabled: v })} />
+          </div>
+          <div className="space-y-2">
+            <Label>Timeline Mode</Label>
+            <Select value={form.timeline_mode} onValueChange={(v) => setForm({ ...form, timeline_mode: v })}>
+              <SelectTrigger className="bg-input border-border/50"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="stories">Stories (horizontal scroll)</SelectItem>
+                <SelectItem value="feed">Feed (vertical posts)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Auto-delete Posts</Label>
+            <Select value={form.timeline_auto_delete} onValueChange={(v) => setForm({ ...form, timeline_auto_delete: v })}>
+              <SelectTrigger className="bg-input border-border/50"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="never">Never</SelectItem>
+                <SelectItem value="24h">After 24 hours</SelectItem>
+                <SelectItem value="48h">After 48 hours</SelectItem>
+                <SelectItem value="7d">After 7 days</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Show Timestamps</Label>
+            <Switch checked={form.timeline_show_timestamps} onCheckedChange={(v) => setForm({ ...form, timeline_show_timestamps: v })} />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Show Views Count</Label>
+            <Switch checked={form.timeline_show_views} onCheckedChange={(v) => setForm({ ...form, timeline_show_views: v })} />
+          </div>
+        </CardContent>
+      </Card>
+
       <Button onClick={handleSave} disabled={saving} className="w-full bg-primary hover:bg-primary/90 gap-2">
         <Save className="w-4 h-4" /> {saving ? "Saving..." : "Save Settings"}
       </Button>
