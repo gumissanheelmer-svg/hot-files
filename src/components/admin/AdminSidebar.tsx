@@ -47,7 +47,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
             <Shield className="w-4 h-4 text-primary" />
           </div>
           {!collapsed && (
-            <span className="text-sm font-bold text-foreground tracking-tight">Painel Admin</span>
+            <span className="text-sm font-bold text-foreground tracking-tight">Super Admin</span>
           )}
         </div>
       </SidebarHeader>
