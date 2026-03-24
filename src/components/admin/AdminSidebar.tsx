@@ -24,11 +24,10 @@ import {
 import { Shield } from "lucide-react";
 
 const navItems = [
-  { title: "Painel", url: "/admin", icon: LayoutDashboard },
-  { title: "Vitrine", url: "/admin/storefront", icon: Eye },
-  { title: "Vendas", url: "/admin/sales", icon: ShoppingCart },
-  { title: "Produtos", url: "/admin/products", icon: Package },
-  { title: "Configurações", url: "/admin/settings", icon: Settings },
+  { title: "Overview", url: "/admin", icon: LayoutDashboard },
+  { title: "All Products", url: "/admin/products", icon: Package },
+  { title: "All Sales", url: "/admin/sales", icon: ShoppingCart },
+  { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
 interface AdminSidebarProps {
