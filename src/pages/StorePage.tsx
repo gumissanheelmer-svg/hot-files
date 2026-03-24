@@ -107,6 +107,17 @@ export default function StorePage() {
           <p className="text-sm text-muted-foreground">Digital Products Store</p>
         </motion.div>
 
+        {profile?.timeline_enabled && profile?.id && (
+          <StoreTimeline
+            userId={profile.id}
+            color={color}
+            telegramLink={profile.telegram_link || ""}
+            mode={profile.timeline_mode as "stories" | "feed"}
+            showTimestamps={profile.timeline_show_timestamps}
+            showViews={profile.timeline_show_views}
+          />
+        )}
+
         {filtered.length === 0 ? (
           <p className="text-center text-muted-foreground py-12">No products available.</p>
         ) : (
