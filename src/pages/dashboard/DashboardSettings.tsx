@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Save, Store, Send, Palette, ImageIcon, X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Save, Store, Send, Palette, ImageIcon, X, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Context { userId: string | null; }
