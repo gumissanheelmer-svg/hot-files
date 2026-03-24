@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { CheckCircle, Search } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import StoreTimeline from "@/components/store/StoreTimeline";
 
 function ensureHttps(url: string): string {
   const t = url.trim();
