@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "./AdminSidebar";
+import { DashboardSidebar } from "./DashboardSidebar";
 import { useAuth } from "@/hooks/useAuth";
 
-export default function AdminLayout() {
-  const { loading, logout } = useAuth("super_admin");
+export default function DashboardLayout() {
+  const { loading, userId, logout } = useAuth("user");
 
   if (loading) {
     return (
@@ -17,14 +17,14 @@ export default function AdminLayout() {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
-        <AdminSidebar onLogout={logout} />
+        <DashboardSidebar onLogout={logout} />
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 flex items-center border-b border-border/50 px-4 backdrop-blur-sm bg-background/80 sticky top-0 z-10">
             <SidebarTrigger className="mr-4" />
-            <span className="text-sm text-muted-foreground font-medium">Super Admin Panel</span>
+            <span className="text-sm text-muted-foreground font-medium">My Store Dashboard</span>
           </header>
           <main className="flex-1 p-6 overflow-auto">
-            <Outlet />
+            <Outlet context={{ userId }} />
           </main>
         </div>
       </div>

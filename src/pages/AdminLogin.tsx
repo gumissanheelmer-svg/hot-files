@@ -27,16 +27,16 @@ const AdminLogin = () => {
 
       if (error) throw error;
 
-      const { data: roleData, error: roleError } = await supabase
+      const { data: roleData } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", data.user.id)
-        .eq("role", "admin")
+        .eq("role", "super_admin")
         .maybeSingle();
 
-      if (roleError || !roleData) {
+      if (!roleData) {
         await supabase.auth.signOut();
-        throw new Error("Acesso negado. Você não é administrador.");
+        throw new Error("Access denied. Super admin only.");
       }
 
       toast({ title: "Bem-vindo de volta!", description: "Login realizado com sucesso." });

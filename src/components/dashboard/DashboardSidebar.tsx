@@ -4,6 +4,7 @@ import {
   Package,
   Settings,
   LogOut,
+  BarChart3,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -20,20 +21,21 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Shield } from "lucide-react";
+import { Store } from "lucide-react";
 
 const navItems = [
-  { title: "Overview", url: "/admin", icon: LayoutDashboard },
-  { title: "All Products", url: "/admin/products", icon: Package },
-  { title: "All Sales", url: "/admin/sales", icon: ShoppingCart },
-  { title: "Settings", url: "/admin/settings", icon: Settings },
+  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Products", url: "/dashboard/products", icon: Package },
+  { title: "Sales", url: "/dashboard/sales", icon: ShoppingCart },
+  { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3 },
+  { title: "Settings", url: "/dashboard/settings", icon: Settings },
 ];
 
-interface AdminSidebarProps {
+interface DashboardSidebarProps {
   onLogout: () => void;
 }
 
-export function AdminSidebar({ onLogout }: AdminSidebarProps) {
+export function DashboardSidebar({ onLogout }: DashboardSidebarProps) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
@@ -43,10 +45,10 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-            <Shield className="w-4 h-4 text-primary" />
+            <Store className="w-4 h-4 text-primary" />
           </div>
           {!collapsed && (
-            <span className="text-sm font-bold text-foreground tracking-tight">Super Admin</span>
+            <span className="text-sm font-bold text-foreground tracking-tight">My Store</span>
           )}
         </div>
       </SidebarHeader>
@@ -63,12 +65,8 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
                     isActive={location.pathname === item.url}
                     tooltip={item.title}
                   >
-                    <NavLink
-                      to={item.url}
-                      end={item.url === "/admin"}
-                      className="hover:bg-accent/50"
-                      activeClassName="bg-primary/10 text-primary font-medium"
-                    >
+                    <NavLink to={item.url} end={item.url === "/dashboard"}
+                      className="hover:bg-accent/50" activeClassName="bg-primary/10 text-primary font-medium">
                       <item.icon className="w-4 h-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -83,11 +81,8 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
       <SidebarFooter className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={onLogout}
-              tooltip="Sair"
-              className="text-destructive hover:bg-destructive/10"
-            >
+            <SidebarMenuButton onClick={onLogout} tooltip="Logout"
+              className="text-destructive hover:bg-destructive/10">
               <LogOut className="w-4 h-4" />
               {!collapsed && <span>Logout</span>}
             </SidebarMenuButton>

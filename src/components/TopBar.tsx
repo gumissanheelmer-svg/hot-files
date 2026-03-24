@@ -1,4 +1,4 @@
-import { Search, LogIn } from "lucide-react";
+import { Search, LogIn, Store } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface TopBarProps {
@@ -13,15 +13,17 @@ const TopBar = ({ searchQuery, onSearchChange }: TopBarProps) => {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
       <div className="max-w-2xl mx-auto px-4">
         <div className="flex items-center justify-between h-12">
-          <span className="text-xs text-muted-foreground tabular-nums">12:45</span>
-          <h1 className="text-sm font-semibold tracking-tight">🔥 PREMIUM FILES</h1>
-          <button
-            onClick={() => navigate("/admin/login")}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
-            title="Admin Login"
-          >
-            <LogIn className="w-4 h-4" />
-          </button>
+          <span className="text-xs text-muted-foreground tabular-nums">🔥</span>
+          <h1 className="text-sm font-semibold tracking-tight">PREMIUM FILES</h1>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => navigate("/login")}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
+              title="Sign In / Create Store"
+            >
+              <Store className="w-4 h-4" />
+            </button>
+          </div>
         </div>
         <div className="pb-3">
           <div className="relative">
