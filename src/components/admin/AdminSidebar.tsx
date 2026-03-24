@@ -90,7 +90,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
               className="text-destructive hover:bg-destructive/10"
             >
               <LogOut className="w-4 h-4" />
-              {!collapsed && <span>Sair</span>}
+              {!collapsed && <span>Logout</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
