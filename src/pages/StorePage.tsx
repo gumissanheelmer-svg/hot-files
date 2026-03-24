@@ -30,6 +30,10 @@ interface StoreProfile {
   primary_color: string;
   logo_url: string | null;
   id: string;
+  timeline_enabled: boolean;
+  timeline_mode: string;
+  timeline_show_timestamps: boolean;
+  timeline_show_views: boolean;
 }
 
 export default function StorePage() {
