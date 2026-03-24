@@ -93,6 +93,11 @@ export type Database = {
           store_name: string
           store_slug: string | null
           telegram_link: string | null
+          timeline_auto_delete: string
+          timeline_enabled: boolean
+          timeline_mode: string
+          timeline_show_timestamps: boolean
+          timeline_show_views: boolean
           updated_at: string
         }
         Insert: {
@@ -104,6 +109,11 @@ export type Database = {
           store_name?: string
           store_slug?: string | null
           telegram_link?: string | null
+          timeline_auto_delete?: string
+          timeline_enabled?: boolean
+          timeline_mode?: string
+          timeline_show_timestamps?: boolean
+          timeline_show_views?: boolean
           updated_at?: string
         }
         Update: {
@@ -115,6 +125,11 @@ export type Database = {
           store_name?: string
           store_slug?: string | null
           telegram_link?: string | null
+          timeline_auto_delete?: string
+          timeline_enabled?: boolean
+          timeline_mode?: string
+          timeline_show_timestamps?: boolean
+          timeline_show_views?: boolean
           updated_at?: string
         }
         Relationships: []
@@ -205,6 +220,51 @@ export type Database = {
           site_name?: string | null
           support_link?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      timeline_posts: {
+        Row: {
+          auto_delete_at: string | null
+          caption: string
+          created_at: string
+          has_cta: boolean
+          id: string
+          image_url: string | null
+          sort_order: number
+          title: string | null
+          updated_at: string
+          user_id: string
+          video_url: string | null
+          views_count: number
+        }
+        Insert: {
+          auto_delete_at?: string | null
+          caption?: string
+          created_at?: string
+          has_cta?: boolean
+          id?: string
+          image_url?: string | null
+          sort_order?: number
+          title?: string | null
+          updated_at?: string
+          user_id: string
+          video_url?: string | null
+          views_count?: number
+        }
+        Update: {
+          auto_delete_at?: string | null
+          caption?: string
+          created_at?: string
+          has_cta?: boolean
+          id?: string
+          image_url?: string | null
+          sort_order?: number
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+          video_url?: string | null
+          views_count?: number
         }
         Relationships: []
       }

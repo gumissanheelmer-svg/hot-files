@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Save, Store, Send, Palette, ImageIcon, X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Save, Store, Send, Palette, ImageIcon, X, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Context { userId: string | null; }
@@ -30,6 +32,11 @@ export default function DashboardSettings() {
     telegram_link: "",
     primary_color: "#6C3BFF",
     logo_url: "",
+    timeline_enabled: true,
+    timeline_mode: "stories",
+    timeline_auto_delete: "never",
+    timeline_show_timestamps: true,
+    timeline_show_views: true,
   });
 
   useEffect(() => {
@@ -43,6 +50,11 @@ export default function DashboardSettings() {
           telegram_link: data.telegram_link || "",
           primary_color: data.primary_color || "#6C3BFF",
           logo_url: data.logo_url || "",
+          timeline_enabled: (data as any).timeline_enabled ?? true,
+          timeline_mode: (data as any).timeline_mode || "stories",
+          timeline_auto_delete: (data as any).timeline_auto_delete || "never",
+          timeline_show_timestamps: (data as any).timeline_show_timestamps ?? true,
+          timeline_show_views: (data as any).timeline_show_views ?? true,
         });
       }
       setLoading(false);
@@ -72,7 +84,12 @@ export default function DashboardSettings() {
       telegram_link: form.telegram_link,
       primary_color: form.primary_color,
       logo_url: form.logo_url || null,
-    }).eq("id", userId);
+      timeline_enabled: form.timeline_enabled,
+      timeline_mode: form.timeline_mode,
+      timeline_auto_delete: form.timeline_auto_delete,
+      timeline_show_timestamps: form.timeline_show_timestamps,
+      timeline_show_views: form.timeline_show_views,
+    } as any).eq("id", userId);
 
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
@@ -153,6 +170,46 @@ export default function DashboardSettings() {
                 {uploadingLogo ? "Uploading..." : <><ImageIcon className="w-4 h-4" /> Upload Logo</>}
               </Button>
             )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-card/50 border-border/50 backdrop-blur-sm">
+        <CardHeader><CardTitle className="text-lg flex items-center gap-2"><Clock className="w-5 h-5 text-primary" /> Timeline Settings</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Label>Enable Timeline</Label>
+            <Switch checked={form.timeline_enabled} onCheckedChange={(v) => setForm({ ...form, timeline_enabled: v })} />
+          </div>
+          <div className="space-y-2">
+            <Label>Timeline Mode</Label>
+            <Select value={form.timeline_mode} onValueChange={(v) => setForm({ ...form, timeline_mode: v })}>
+              <SelectTrigger className="bg-input border-border/50"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="stories">Stories (horizontal scroll)</SelectItem>
+                <SelectItem value="feed">Feed (vertical posts)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Auto-delete Posts</Label>
+            <Select value={form.timeline_auto_delete} onValueChange={(v) => setForm({ ...form, timeline_auto_delete: v })}>
+              <SelectTrigger className="bg-input border-border/50"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="never">Never</SelectItem>
+                <SelectItem value="24h">After 24 hours</SelectItem>
+                <SelectItem value="48h">After 48 hours</SelectItem>
+                <SelectItem value="7d">After 7 days</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Show Timestamps</Label>
+            <Switch checked={form.timeline_show_timestamps} onCheckedChange={(v) => setForm({ ...form, timeline_show_timestamps: v })} />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Show Views Count</Label>
+            <Switch checked={form.timeline_show_views} onCheckedChange={(v) => setForm({ ...form, timeline_show_views: v })} />
           </div>
         </CardContent>
       </Card>

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { CheckCircle, Search } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import StoreTimeline from "@/components/store/StoreTimeline";
 
 function ensureHttps(url: string): string {
   const t = url.trim();
@@ -29,6 +30,10 @@ interface StoreProfile {
   primary_color: string;
   logo_url: string | null;
   id: string;
+  timeline_enabled: boolean;
+  timeline_mode: string;
+  timeline_show_timestamps: boolean;
+  timeline_show_views: boolean;
 }
 
 export default function StorePage() {
@@ -101,6 +106,17 @@ export default function StorePage() {
           <h2 className="text-2xl font-black tracking-tight" style={{ color }}>{profile?.store_name || "Store"}</h2>
           <p className="text-sm text-muted-foreground">Digital Products Store</p>
         </motion.div>
+
+        {profile?.timeline_enabled && profile?.id && (
+          <StoreTimeline
+            userId={profile.id}
+            color={color}
+            telegramLink={profile.telegram_link || ""}
+            mode={profile.timeline_mode as "stories" | "feed"}
+            showTimestamps={profile.timeline_show_timestamps}
+            showViews={profile.timeline_show_views}
+          />
+        )}
 
         {filtered.length === 0 ? (
           <p className="text-center text-muted-foreground py-12">No products available.</p>
