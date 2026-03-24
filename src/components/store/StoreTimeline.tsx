@@ -51,7 +51,7 @@ export default function StoreTimeline({ userId, color, telegramLink, mode, showT
   }, [userId]);
 
   const incrementViews = async (postId: string) => {
-    await supabase.rpc("increment_timeline_views" as any, { post_id: postId }).catch(() => {});
+    try { await supabase.rpc("increment_timeline_views" as any, { post_id: postId }); } catch {}
   };
 
   if (loading || posts.length === 0) return null;
