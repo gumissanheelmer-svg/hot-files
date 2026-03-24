@@ -32,6 +32,11 @@ export default function DashboardSettings() {
     telegram_link: "",
     primary_color: "#6C3BFF",
     logo_url: "",
+    timeline_enabled: true,
+    timeline_mode: "stories",
+    timeline_auto_delete: "never",
+    timeline_show_timestamps: true,
+    timeline_show_views: true,
   });
 
   useEffect(() => {
